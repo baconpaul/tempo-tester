@@ -6,6 +6,8 @@ DAWs.
 Standard instructions
 
 ```shell
+clone
+git submodule updste --init --recursive
 cmake -Bbuild
 cmake --build build --target tempo-tester_VST3
 ```
