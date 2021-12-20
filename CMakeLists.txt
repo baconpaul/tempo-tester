@@ -4,7 +4,24 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET 10.11 CACHE STRING "Build for 10.11")
 
 project(tempo-tester VERSION 0.9.0 LANGUAGES CXX)
 
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 14)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+  # Any Clang or any GCC
+  add_compile_options(
+          -Wno-multichar
+          -Werror
+          -fvisibility=hidden
+           $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<COMPILE_LANGUAGE:CXX>>:-fvisibility-inlines-hidden>
+  )
+endif()
+
 add_subdirectory(lib/JUCE)
+
+if (CLAP_EXTENSIONS)
+  add_subdirectory(${CLAP_EXTENSIONS} clap-extensions)
+endif()
 
 juce_add_plugin(tempo-tester
     PRODUCT_NAME "TempoTester"
@@ -22,6 +39,11 @@ juce_add_plugin(tempo-tester
     
     FORMATS AU VST3 Standalone
 )
+
+if (CLAP_EXTENSIONS)
+  clap_juce_extensions_plugin(TARGET tempo-tester
+          CLAP_ID "org.surge-synth-team.tempo-tester")
+endif()
 
 juce_generate_juce_header( tempo-tester )
 
