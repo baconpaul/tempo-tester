@@ -121,6 +121,14 @@ void TempoTesterAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
       isPlaying = cp.isPlaying;
       isLooping = cp.isLooping;
       isRecording = cp.isRecording;
+#if HAS_CLAP_JUCE_EXTENSIONS
+      isClap = is_clap;
+      if (clap_transport)
+        barNumber = clap_transport->bar_number;
+#else
+      isClap = false;
+      barNumber = 0;
+#endif
    }
 }
 

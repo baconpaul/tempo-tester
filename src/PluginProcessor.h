@@ -13,8 +13,16 @@
 #include <JuceHeader.h>
 #include <set>
 
+#if HAS_CLAP_JUCE_EXTENSIONS
+#include <clap-juce-extensions/clap-juce-extensions.h>
+#endif
 
-class TempoTesterAudioProcessor  : public juce::AudioProcessor
+
+class TempoTesterAudioProcessor  :
+#if HAS_CLAP_JUCE_EXTENSIONS
+    public clap_juce_extensions::clap_properties,
+#endif
+    public juce::AudioProcessor
 {
 public:
     //==============================================================================
@@ -59,6 +67,8 @@ public:
     std::atomic<double> ppqPosition{0}, ppqPositionOfLastBarStart{0}, ppqLoopStart{0}, ppqLoopEnd{0};
     std::atomic<bool> isPlaying{false}, isRecording{false}, isLooping{false};
 
+    std::atomic<bool> isClap;
+    std::atomic<int32_t> barNumber;
 private:
 
     //==============================================================================

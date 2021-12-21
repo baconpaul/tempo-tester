@@ -66,6 +66,8 @@ void TempoTesterAudioProcessorEditor::paint (Graphics& g)
     addF( "ppqPosMsr", std::to_string(processor.ppqPositionOfLastBarStart));
     addF( "isPlaying", processor.isPlaying ? "TRUE" : "FALSE" );
     addF( "isRecording", processor.isRecording ? "TRUE" : "FALSE" );
+    addF( "isClap", processor.isClap ? "TRUE" : "FALSE" );
+    addF( "barNumber", std::to_string(processor.barNumber));
 }
 
 void TempoTesterAudioProcessorEditor::resized()
